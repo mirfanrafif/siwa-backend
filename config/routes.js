@@ -1,6 +1,6 @@
 const express = require('express')
-const router = express.Router()
+const routes = express.Router()
 
-router.use("menu", require('../controller/menuController'))
+routes.use("/menu", require('../routes/menu'));
 
-module.exports = router
+module.exports = routes

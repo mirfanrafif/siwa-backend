@@ -1,8 +1,20 @@
-const Menu = require('../models/menu')
+const { create } = require('lodash');
+const { Menu } = require('../models')
 
 module.exports = {
-    index(req, res) {
-        const menu = Menu.findAll();
-        res.send(JSON.stringify(menu))
+    async index(req, res) {
+        const menu = await Menu.findAll({});
+        res.send(menu)
+    },
+
+    async create(req, res) {
+        const result = await Menu.create({
+            'nama': req.body.nama,
+            'harga': req.body.harga,
+            'url_gambar': req.body.url_gambar
+        })
+
+        res.send(result)
     }
+
 }
