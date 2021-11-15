@@ -4,5 +4,8 @@ const controller = require('../controller/menuController')
 
 routes.get('/', controller.index)
 routes.post('/', controller.create)
+routes.get("/:id", controller.find)
+routes.put("/:id", controller.update)
+routes.delete("/:id", controller.delete)
 
 module.exports = routes
