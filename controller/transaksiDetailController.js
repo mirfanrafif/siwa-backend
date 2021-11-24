@@ -1,22 +1,22 @@
-const { Transaksi } = require('../models')
+const { TransaksiDetail } = require('../models')
 
 module.exports = {
     async index(req, res) {
-        const transaksi = await Transaksi.findAll({});
-        res.send(transaksi)
+        const Transaksi = await TransaksiDetail.findAll({});
+        res.send(Transaksi)
     },
 
     async find(req, res) {
-        const transaksi = await Transaksi.findAll({
+        const Transaksi = await TransaksiDetail.findAll({
             where: {
                 id: req.params.id
             }
         });
-        res.send(transaksi)
+        res.send(Transaksi)
     },
 
     async create(req, res) {
-        const result = await Transaksi.create({
+        const result = await TransaksiDetail.create({
             'userid': req.body.userid
         })
 
@@ -24,7 +24,7 @@ module.exports = {
     },
 
     async update(req, res) {
-        const result = await Transaksi.update({
+        const result = await TransaksiDetail.update({
             'userid': req.body.userid
         }, { where: {
                 id: req.params.id
@@ -35,13 +35,13 @@ module.exports = {
     },
 
     async delete(req, res){
-        const result = await Transaksi.destroy({
+        const result = await TransaksiDetail.destroy({
             where: {
                 id: req.params.id 
             }
         })
 
-        res.send("Transaksi Record id" + req.params.id + "deleted.")
+        res.send("TransaksiDetail Record id" + req.params.id + "deleted.")
     }
 
 }
