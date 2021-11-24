@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "root",
-    "password": "",
+    "username": "admin",
+    "password": "Aremania87",
     "database": "siwa",
     "host": "127.0.0.1",
     "dialect": "mysql"
