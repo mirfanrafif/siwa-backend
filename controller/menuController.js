@@ -1,4 +1,3 @@
-const { create } = require('lodash');
 const { Menu } = require('../models')
 
 module.exports = {
@@ -13,14 +12,15 @@ module.exports = {
                 id: req.params.id
             }
         });
-        res.send(menu)
+        res.send(menu[0])
     },
 
     async create(req, res) {
         const result = await Menu.create({
             'nama': req.body.nama,
             'harga': req.body.harga,
-            'url_gambar': req.body.url_gambar
+            'url_gambar': req.body.url_gambar,
+            'jenis_menu': req.body.jenis_menu
         })
 
         res.send(result)
@@ -30,8 +30,10 @@ module.exports = {
         const result = await Menu.update({
             'nama': req.body.nama,
             'harga': req.body.harga,
-            'url_gambar': req.body.url_gambar
-        }, { where: {
+            'url_gambar': req.body.url_gambar,
+            'jenis_menu': req.body.jenis_menu
+        }, {
+            where: {
                 id: req.params.id
             }
         })
@@ -39,10 +41,10 @@ module.exports = {
         res.send(result)
     },
 
-    async delete(req, res){
+    async delete(req, res) {
         const result = await Menu.destroy({
             where: {
-                id: req.params.id 
+                id: req.params.id
             }
         })
 
