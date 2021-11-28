@@ -1,4 +1,6 @@
-const { Transaksi } = require('../models')
+const { create } = require('lodash');
+const { Transaksi, TransaksiDetail } = require('../models');
+// const { TransaksiDetail } = require('../models/transaksidetail');
 
 module.exports = {
     async index(req, res) {
@@ -15,12 +17,24 @@ module.exports = {
         res.send(transaksi)
     },
 
-    async create(req, res) {
-        const result = await Transaksi.create({
+    async create(req, res){
+        Transaksi.create({
             'userid': req.body.userid
+        }).then((result) => {
+            var idTransaksi = result.id
+            console.log("ID Transaksi : " + idTransaksi)
+            var menu = req.body.menu
+            console.log(menu)
+            menu.forEach(data => {
+                console.log(data)
+                TransaksiDetail.create({
+                    'transaksi_id': idTransaksi,
+                    'menu_id': data.id,
+                    'jumlah': data.jumlah
+                }).then(() => {})
+            });
+            res.send(result)
         })
-
-        res.send(result)
     },
 
     async update(req, res) {

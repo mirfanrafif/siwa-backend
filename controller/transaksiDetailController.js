@@ -17,7 +17,9 @@ module.exports = {
 
     async create(req, res) {
         const result = await TransaksiDetail.create({
-            'userid': req.body.userid
+            'transaksi_id': req.body.transaksi_id,
+            'menu_id': req.body.menu_id,
+            'jumlah': req.body.jumlah
         })
 
         res.send(result)
@@ -25,7 +27,9 @@ module.exports = {
 
     async update(req, res) {
         const result = await TransaksiDetail.update({
-            'userid': req.body.userid
+            'transaksi_id': req.body.transaksi_id,
+            'menu_id': req.body.menu_id,
+            'jumlah': req.body.jumlah
         }, { where: {
                 id: req.params.id
             }
