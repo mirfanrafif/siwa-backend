@@ -1,6 +1,6 @@
 const { create } = require('lodash');
-const { Transaksi } = require('../models');
-const { TransaksiDetail } = require('../models/transaksidetail');
+const { Transaksi, TransaksiDetail } = require('../models');
+// const { TransaksiDetail } = require('../models/transaksidetail');
 
 module.exports = {
     async index(req, res) {
@@ -17,66 +17,25 @@ module.exports = {
         res.send(transaksi)
     },
 
-    // async create(req, res) {
-    //     const result = await Transaksi.create({
-    //         'userid': req.body.userid
-    //     })
-
-    //     res.send(result)
-    // },
-
-    async create(req, res) {
-        try {
-            const result = await Transaksi.create({
-                'userid': req.body.userid
-            }).then(res => {
-                id = res.id
-                TransaksiDetail.bulkCreate({
-                    'transaksi_id': id,
-                    'menu_id': req.menu.id,
-                    'jumlah': menu.jumlah
-                }, {returning: true})
-            })
-    
-            res.send("ok")
-        } catch (error) {
-            console.log(error)
-        }
+    async create(req, res){
+        Transaksi.create({
+            'userid': req.body.userid
+        }).then((result) => {
+            var idTransaksi = result.id
+            console.log("ID Transaksi : " + idTransaksi)
+            var menu = req.body.menu
+            console.log(menu)
+            menu.forEach(data => {
+                console.log(data)
+                TransaksiDetail.create({
+                    'transaksi_id': idTransaksi,
+                    'menu_id': data.id,
+                    'jumlah': data.jumlah
+                }).then(() => {})
+            });
+            res.send(result)
+        })
     },
-
-    // async create(req, res) {
-    //     try {
-    //         const result = await Transaksi.create({
-    //             'userid': req.body.userid}).then(res => {
-    //                 id = req.body.transaksi_id
-    //                 result = res
-    //                 result.menu = []
-    //                 req.body.menu.forEach(data => {
-    //                     TransaksiDetail.create({
-    //                         'transaksi_id': id,
-    //                         'menu_id': data.id,
-    //                         'jumlah': data.jumlah
-    //                     }).then(tdres => {
-    //                         result.menu.push(tdres)
-    //                 })
-    //             })
-    //         }).finally(() => {
-    //             res.send(result)
-    //         })
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // },
-
-    // async createTransaksiDetail(req, res){
-    //     const result = await TransaksiDetail.create({
-    //         'transaksi_id': req.body.transaksi_id,
-    //         'menu_id': req.body.menu_id,
-    //         'jumlah': req.body.jumlah
-    //     })
-
-    //     res.send(result)
-    // },
 
     async update(req, res) {
         const result = await Transaksi.update({
