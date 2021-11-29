@@ -2,7 +2,7 @@ const express = require('express')
 const routes = express.Router()
 const controller = require('../controller/transaksiController')
 
-routes.use(require('../middleware/verifyToken'))
+// routes.use(require('../middleware/verifyToken'))
 routes.get('/', controller.index)
 routes.post('/', controller.create)
 routes.get("/:id", controller.find)

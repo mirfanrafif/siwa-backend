@@ -1,37 +1,36 @@
-const { create } = require('lodash');
 const { Transaksi, TransaksiDetail } = require('../models');
 // const { TransaksiDetail } = require('../models/transaksidetail');
 
 module.exports = {
     async index(req, res) {
-        const transaksi = await Transaksi.findAll({});
-        res.send(transaksi)
-    },
-
-    async find(req, res) {
         const transaksi = await Transaksi.findAll({
-            where: {
-                id: req.params.id
-            }
+            include: ['kasir']
         });
         res.send(transaksi)
     },
 
-    async create(req, res){
+    async find(req, res) {
+        const transaksi = await Transaksi.findOne({
+            where: {
+                id: req.params.id
+            },
+            include: { all: true, nested: true }
+        });
+        res.send(transaksi)
+    },
+
+    async create(req, res) {
         Transaksi.create({
             'userid': req.body.userid
         }).then((result) => {
             var idTransaksi = result.id
-            console.log("ID Transaksi : " + idTransaksi)
             var menu = req.body.menu
-            console.log(menu)
             menu.forEach(data => {
-                console.log(data)
                 TransaksiDetail.create({
                     'transaksi_id': idTransaksi,
                     'menu_id': data.id,
                     'jumlah': data.jumlah
-                }).then(() => {})
+                }).then(() => { })
             });
             res.send(result)
         })
@@ -40,7 +39,8 @@ module.exports = {
     async update(req, res) {
         const result = await Transaksi.update({
             'userid': req.body.userid
-        }, { where: {
+        }, {
+            where: {
                 id: req.params.id
             }
         })
@@ -48,10 +48,10 @@ module.exports = {
         res.send(result)
     },
 
-    async delete(req, res){
+    async delete(req, res) {
         const result = await Transaksi.destroy({
             where: {
-                id: req.params.id 
+                id: req.params.id
             }
         })
 
