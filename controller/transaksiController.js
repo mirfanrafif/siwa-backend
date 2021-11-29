@@ -14,7 +14,7 @@ module.exports = {
             where: {
                 id: req.params.id
             },
-            include: ['details', 'kasir']
+            include: { all: true, nested: true }
         });
         res.send(transaksi)
     },
